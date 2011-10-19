@@ -3,6 +3,8 @@ include <boxes.scad>
 
 wiggle_room = 1;
 
+//my_fn = 20;
+my_fn=40;
 my_fn = 50;
 //my_fn = 100;
 
@@ -13,6 +15,11 @@ my_fn = 50;
 width_outer = 40;
 length_outer = 40;
 height_outer = 40;
+
+//width_outer = 95;
+//length_outer = 95;
+//height_outer = 95;
+
 
 wall_thickness = (1/10) * width_outer;
 
@@ -45,14 +52,14 @@ module myBoxRounded() {
 module boxNoLid() {
 	difference() {
 		myBox();
-		myLidAtProperHeight();
+		myLidAtProperHeightWithWiggle();
 	}
 }
 
 module boxNoLidRounded() {
 	difference() {
 		myBoxRounded();
-		myLidAtProperHeight();
+		myLidAtProperHeightWithWiggle();
 	}
 
 }
@@ -63,6 +70,10 @@ module myLidAtProperHeight() {
 
 module myLidRoundedAtProperHeight() {
 	translate(v=[0,0,height_outer-lid_height]) myRoundedLidAtZero();
+}
+
+module myLidAtProperHeightWithWiggle() {
+	translate(v=[0,0,height_outer-lid_height]) myLidAtZeroWithWiggle();
 }
 
 module myRoundedLidAtZero() {
@@ -78,6 +89,13 @@ module myRoundedLidAtZero() {
 module myLidAtZero() {
 	difference() {
 		translate(v=[0,0,lid_height/2]) cube([width_outer,length_outer,lid_height],center=true);
+		translate(v=[0,0,lid_height_i/2]) cube([lid_width_i,lid_length_i,lid_height_i],center=true);
+	}
+}
+
+module myLidAtZeroWithWiggle() {
+	difference() {
+		translate(v=[0,0,lid_height/2]) cube([width_outer,length_outer,lid_height],center=true);
 		translate(v=[0,0,lid_height_i/2]) cube([lid_width_i - wiggle_room,lid_length_i  - wiggle_room,lid_height_i],center=true);
 	}
 }
@@ -91,6 +109,14 @@ module boxOnlyRoundedPrintable() {
 	boxNoLidRounded();
 }
 
+module boxOnlyPrintable() {
+	boxNoLid();
+}
+
+module lidOnlyPrintable() {
+	translate(v=[0,0,lid_height]) rotate([180,0,0]) myLidAtZero();
+}
+
 module lidOnlyRoundedPrintable() {
 	translate(v=[0,0,lid_height]) rotate([180,0,0]) myRoundedLidAtZero();
 }
@@ -100,8 +126,12 @@ module boxRoundedPrintable() {
 	translate(v=[(width_outer/-2)-5,0,lid_height]) rotate([180,0,0]) myRoundedLidAtZero();
 }
 
-
+// Square box
 //boxPrintable();
+//boxOnlyPrintable();
+//lidOnlyPrintable();
+
+// Round box
 boxRoundedPrintable();
 //boxOnlyRoundedPrintable();
 //lidOnlyRoundedPrintable();
