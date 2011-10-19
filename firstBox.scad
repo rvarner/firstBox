@@ -3,8 +3,8 @@ include <boxes.scad>
 
 wiggle_room = 1;
 
-//my_fn = 50;
-my_fn = 100;
+my_fn = 50;
+//my_fn = 100;
 
 //width_outer = 50;
 //length_outer = 50;
@@ -25,10 +25,6 @@ lid_height_i = lid_height - wall_thickness;
 lid_width_i = width_outer - wall_thickness;
 
 lid_length_i = length_outer - wall_thickness;
-
-
-//boxPrintable();
-boxRoundedPrintable();
 
 
 module myBox() {
@@ -91,7 +87,21 @@ module boxPrintable() {
 	translate(v=[(width_outer/-2)-5,0,lid_height]) rotate([180,0,0]) myLidAtZero();
 }
 
+module boxOnlyRoundedPrintable() {
+	boxNoLidRounded();
+}
+
+module lidOnlyRoundedPrintable() {
+	translate(v=[0,0,lid_height]) rotate([180,0,0]) myRoundedLidAtZero();
+}
+
 module boxRoundedPrintable() {
 	translate(v=[(width_outer/2)+5,0,0]) boxNoLidRounded();
 	translate(v=[(width_outer/-2)-5,0,lid_height]) rotate([180,0,0]) myRoundedLidAtZero();
 }
+
+
+//boxPrintable();
+boxRoundedPrintable();
+//boxOnlyRoundedPrintable();
+//lidOnlyRoundedPrintable();
